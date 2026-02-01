@@ -66,17 +66,7 @@ export default function ProjectsPage({ params }: { params: { lang: Locale } }) {
                 ? "تصميم عصري متكامل يعكس هوية الشركة ويعزز تجربة العملاء من خلال مساحات ذكية وجذابة."
                 : "A modern integrated design reflecting the company identity and enhancing customer experience through smart, attractive spaces."
         },
-        {
-            id: 4,
-            title: params.lang === 'ar' ? "تصميم المبنى الإداري الاستثماري التابع لمصرف التجارة والتنمية - سيدي حسين، بنغازي" : "Design of Investment Administrative Building for Bank of Commerce and Development - Sidi Hussein, Benghazi",
-            category: params.lang === 'ar' ? "مبنى إداري" : "Administrative Building",
-            image: "/images/bcd-building.jpg",
-            location: params.lang === 'ar' ? "ليبيا" : "Libya",
-            year: "",
-            desc: params.lang === 'ar'
-                ? "تصميم معماري متميز يجمع بين الطابع العصري والوظيفي لخدمة القطاع المصرفي."
-                : "Distinctive architectural design combining modern style and functionality to serve the banking sector."
-        },
+
         {
             id: 5,
             title: params.lang === 'ar' ? "صيانه وتطوير المصرف التجاري الوطني إدارة فروع بنغازي - البركه ليبيا" : "Maintenance and Development of National Commercial Bank - Benghazi Branches Administration - Al-Berka, Libya",
