@@ -10,10 +10,15 @@ import { motion } from "framer-motion";
 export function ClientsSection({ lang }: { lang: Locale }) {
     const scrollRef = useRef<HTMLDivElement>(null);
     const [isPaused, setIsPaused] = useState(false);
+    const [isTouchDevice, setIsTouchDevice] = useState(false);
+
+    useEffect(() => {
+        setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
+    }, []);
 
     // 1. Define Clients Data 
     const clients = [
-        { name: lang === 'ar' ? "صندوق تنمية وإعمار ليبيا" : "Libya Reconstruction Fund", logo: "/images/clients/reconstruction-fund-new.png" }, // Updated Logo & Moved to top
+        { name: lang === 'ar' ? "صندوق تنمية وإعمار ليبيا" : "Libya Reconstruction Fund", logo: "/images/clients/reconstruction-fund-new.png" },
         { name: lang === 'ar' ? "ليبيانا للهاتف المحمول" : "Libyana Mobile Phone", logo: "/images/clients/libyana.png" },
         { name: lang === 'ar' ? "المصرف التجاري الوطني" : "National Commercial Bank", logo: "/images/clients/ncb.png" },
         { name: lang === 'ar' ? "مصرف الوحدة" : "Wahda Bank", logo: "/images/clients/wahda.png" },
@@ -21,7 +26,6 @@ export function ClientsSection({ lang }: { lang: Locale }) {
         { name: lang === 'ar' ? "الهيئة العامة للأوقاف" : "General Authority for Awqaf", logo: "/images/clients/awqaf.jpg" },
         { name: lang === 'ar' ? "مصرف التجارة والتنمية" : "Bank of Commerce & Development", logo: "/images/clients/bcd.png" },
         { name: lang === 'ar' ? "مصرف ليبيا المركزي" : "Central Bank of Libya", logo: "/images/clients/cbl-final.png" },
-        // Removed Omar Al-Mukhtar University
         { name: lang === 'ar' ? "حكومة الوحدة الوطنية (وزارة الزراعة)" : "Ministry of Agriculture", logo: "/images/clients/ministry-agra.png" },
         { name: lang === 'ar' ? "نادي الأخضر الرياضي" : "Al-Akhdar Sport Club", logo: "/images/clients/akhdar-transparent.png" },
         { name: lang === 'ar' ? "المجلس البلدي البيضاء" : "Al-Bayda Municipal Council", logo: "/images/clients/al-bayda-municipal.png" },
@@ -43,7 +47,8 @@ export function ClientsSection({ lang }: { lang: Locale }) {
 
         const animate = () => {
             if (scrollContainer && !isPaused) {
-                scrollContainer.scrollLeft += 0.8; // Slightly cleaner speed
+                // Slower scroll on mobile for better readability
+                scrollContainer.scrollLeft += isTouchDevice ? 0.5 : 0.8;
                 const singleSetWidth = scrollContainer.scrollWidth / 3;
                 if (scrollContainer.scrollLeft >= singleSetWidth * 2) {
                     scrollContainer.scrollLeft = singleSetWidth;
@@ -54,6 +59,7 @@ export function ClientsSection({ lang }: { lang: Locale }) {
 
         if (scrollContainer) {
             const singleSetWidth = scrollContainer.scrollWidth / 3;
+            // Initialize scrol position if starting
             if (scrollContainer.scrollLeft < 10) {
                 scrollContainer.scrollLeft = singleSetWidth;
             }
@@ -61,60 +67,69 @@ export function ClientsSection({ lang }: { lang: Locale }) {
 
         animationFrameId = requestAnimationFrame(animate);
         return () => cancelAnimationFrame(animationFrameId);
-    }, [isPaused]);
+    }, [isPaused, isTouchDevice]);
 
     const scrollLeft = () => {
         if (scrollRef.current) {
             scrollRef.current.scrollBy({ left: -300, behavior: "smooth" });
         }
+        setIsPaused(true);
+        // Resume after user interaction
+        setTimeout(() => setIsPaused(false), 2000);
     };
 
     const scrollRight = () => {
         if (scrollRef.current) {
             scrollRef.current.scrollBy({ left: 300, behavior: "smooth" });
         }
+        setIsPaused(true);
+        setTimeout(() => setIsPaused(false), 2000);
     };
 
     return (
-        <section className="py-32 bg-secondary-dark relative group/section overflow-hidden">
+        <section className="py-16 md:py-28 lg:py-32 bg-neutral-50 relative group/section overflow-hidden">
             {/* Background Effects */}
             <div className="absolute inset-0 z-0">
-                <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-                <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/5 via-secondary-dark to-secondary-dark" />
+                <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/30 to-transparent" />
+                <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/30 to-transparent" />
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent" />
             </div>
 
-            <div className="container-custom relative z-10 mb-16 text-center">
+            {/* Smooth Transition Masks */}
+            <div className="absolute top-0 inset-x-0 h-24 md:h-32 bg-gradient-to-b from-white to-transparent z-10 pointer-events-none" />
+            <div className="absolute bottom-0 inset-x-0 h-24 md:h-32 bg-gradient-to-t from-neutral-50 to-transparent z-10 pointer-events-none" />
+
+            <div className="container-custom relative z-10 mb-10 md:mb-16 text-center px-4">
                 <FadeIn direction="up">
-                    <span className="inline-block py-2 px-6 rounded-full bg-white/5 backdrop-blur-md border border-white/10 text-accent text-xs font-bold uppercase tracking-[0.3em] mb-6 shadow-xl">
+                    <span className="inline-block py-1.5 md:py-2 px-4 md:px-6 rounded-full bg-primary/5 backdrop-blur-md border border-primary/10 text-primary text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] mb-4 md:mb-6 shadow-lg">
                         {lang === 'ar' ? "شركاء النجاح" : "Our Partners"}
                     </span>
                 </FadeIn>
 
-                <div className="mb-6">
-                    <TextReveal text={lang === 'ar' ? "نفخر بثقة كبرى المؤسسات" : "Trusted by Major Institutions"} className="justify-center text-4xl md:text-5xl lg:text-6xl font-bold font-heading text-white" />
+                <div className="mb-4 md:mb-6">
+                    <TextReveal text={lang === 'ar' ? "نفخر بثقة كبرى المؤسسات" : "Trusted by Major Institutions"} className="justify-center text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold font-heading text-foreground" />
                 </div>
 
                 <FadeIn delay={0.2}>
-                    <p className="text-gray-400 text-lg max-w-2xl mx-auto font-light leading-relaxed">
+                    <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto font-light leading-relaxed px-2">
                         {lang === 'ar'
                             ? "علاقات استراتيجية راسخة مع وصفوة المؤسسات في القطاعين العام والخاص."
                             : "Established strategic relationships with elite institutions in both public and private sectors."}
                     </p>
                 </FadeIn>
 
-                {/* Manual Controls */}
-                <div className="flex gap-4 justify-center mt-8 rtl:flex-row-reverse">
+                {/* Manual Controls - Hidden on mobile, they usually swipe */}
+                <div className="hidden md:flex gap-4 justify-center mt-8 rtl:flex-row-reverse">
                     <button
                         onClick={scrollLeft}
-                        className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:bg-primary hover:text-white hover:border-primary transition-all duration-300 backdrop-blur-sm"
+                        className="w-12 h-12 rounded-full bg-primary/5 border border-primary/10 flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-white hover:border-primary transition-all duration-300 backdrop-blur-sm"
                         aria-label="Scroll Left"
                     >
                         <ChevronLeft className="w-5 h-5" />
                     </button>
                     <button
                         onClick={scrollRight}
-                        className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:bg-primary hover:text-white hover:border-primary transition-all duration-300 backdrop-blur-sm"
+                        className="w-12 h-12 rounded-full bg-primary/5 border border-primary/10 flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-white hover:border-primary transition-all duration-300 backdrop-blur-sm"
                         aria-label="Scroll Right"
                     >
                         <ChevronRight className="w-5 h-5" />
@@ -123,19 +138,24 @@ export function ClientsSection({ lang }: { lang: Locale }) {
             </div>
 
             <div className="relative w-full overflow-hidden" dir="ltr">
-                {/* Gradient Masks for seamless fade */}
-                <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-secondary-dark to-transparent z-10 pointer-events-none" />
-                <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-secondary-dark to-transparent z-10 pointer-events-none" />
+                {/* Gradient Masks for seamless fade - Smaller on mobile */}
+                <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-neutral-50 to-transparent z-10 pointer-events-none" />
+                <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-neutral-50 to-transparent z-10 pointer-events-none" />
 
                 <div
                     ref={scrollRef}
-                    className="flex gap-5 overflow-x-auto scrollbar-hide py-4 px-4"
-                    style={{ scrollBehavior: 'auto' }}
+                    className="flex gap-4 md:gap-5 overflow-x-auto scrollbar-hide py-4 px-4 items-center"
+                    style={{
+                        scrollBehavior: 'auto',
+                        WebkitOverflowScrolling: 'touch'
+                    }}
                     onMouseEnter={() => setIsPaused(true)}
                     onMouseLeave={() => setIsPaused(false)}
+                    onTouchStart={() => setIsPaused(true)}
+                    onTouchEnd={() => setTimeout(() => setIsPaused(false), 2000)}
                 >
                     {displayClients.map((client, idx) => (
-                        <ClientCard key={`${client.name}-${idx}`} client={client} />
+                        <ClientCard key={`${client.name}-${idx}`} client={client} isMobile={isTouchDevice} />
                     ))}
                 </div>
             </div>
@@ -148,21 +168,22 @@ export function ClientsSection({ lang }: { lang: Locale }) {
     );
 }
 
-function ClientCard({ client }: { client: { name: string, logo: string } }) {
+function ClientCard({ client, isMobile }: { client: { name: string, logo: string }, isMobile?: boolean }) {
     return (
-        <div className="group flex flex-col items-center gap-4 shrink-0 cursor-pointer select-none">
-            <div className="w-[280px] h-[180px] flex items-center justify-center p-4 transition-all duration-500 group-hover:-translate-y-2">
+        <div className="group flex flex-col items-center gap-2 md:gap-4 shrink-0 cursor-pointer select-none">
+            <div className="w-[120px] h-[80px] sm:w-[150px] sm:h-[100px] md:w-[280px] md:h-[180px] flex items-center justify-center p-2 md:p-4 transition-all duration-500 group-hover:-translate-y-2">
                 <div className="relative w-full h-full">
                     <Image
                         src={client.logo}
                         alt={client.name}
                         fill
-                        className="object-contain p-2 transition-all duration-500 group-hover:scale-110 opacity-90 group-hover:opacity-100"
-                        sizes="(max-width: 768px) 100vw, 280px"
+                        className="object-contain p-1 md:p-2 transition-all duration-500 group-hover:scale-110 opacity-90 group-hover:opacity-100 grayscale group-hover:grayscale-0"
+                        sizes="(max-width: 640px) 120px, (max-width: 768px) 150px, 280px"
                     />
                 </div>
             </div>
-            <span className="text-sm font-medium text-gray-500 group-hover:text-white transition-colors duration-300 text-center max-w-[240px] opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0">
+            {/* Name hidden on mobile for cleaner look, visible on larger screens */}
+            <span className="hidden md:block text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors duration-300 text-center max-w-[240px] opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0">
                 {client.name}
             </span>
         </div>

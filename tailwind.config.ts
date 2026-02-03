@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+    darkMode: "class",
     content: [
         "./pages/**/*.{js,ts,jsx,tsx,mdx}",
         "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -9,23 +10,39 @@ const config: Config = {
     theme: {
         extend: {
             colors: {
+                border: "hsl(var(--border))",
+                input: "hsl(var(--input))",
+                ring: "hsl(var(--ring))",
+                background: "hsl(var(--background))",
+                foreground: "hsl(var(--foreground))",
                 primary: {
-                    DEFAULT: "#9D1F65", // Logo Magenta/Burgundy
+                    DEFAULT: "hsl(var(--primary))",
+                    foreground: "hsl(var(--primary-foreground))",
                     light: "#B82D7A",
                     dark: "#7A1850",
                     50: "#FDF2F8",
                     100: "#FCE7F3",
                 },
                 secondary: {
-                    DEFAULT: "#4A3F55", // Logo Dark Purple/Gray
+                    DEFAULT: "hsl(var(--secondary))",
+                    foreground: "hsl(var(--secondary-foreground))",
                     light: "#6B5F78",
                     dark: "#2E2536",
                     glass: "rgba(74, 63, 85, 0.9)", // Glass effect base
                 },
                 accent: {
-                    DEFAULT: "#C4A574", // Warm Gold accent
+                    DEFAULT: "hsl(var(--accent))",
+                    foreground: "hsl(var(--accent-foreground))",
                     light: "#D4BA94",
                     dark: "#A88B5A",
+                },
+                muted: {
+                    DEFAULT: "hsl(var(--muted))",
+                    foreground: "hsl(var(--muted-foreground))",
+                },
+                card: {
+                    DEFAULT: "hsl(var(--card))",
+                    foreground: "hsl(var(--card-foreground))",
                 },
                 neutral: {
                     50: "#FAFAFA",
@@ -52,8 +69,8 @@ const config: Config = {
                 },
             },
             backgroundImage: {
-                'hero-gradient': 'linear-gradient(135deg, #4A3F55 0%, #2E2536 100%)',
-                'logo-gradient': 'linear-gradient(to right, #4A3F55, #9D1F65)',
+                'hero-gradient': 'linear-gradient(135deg, #F7F7F7 0%, #FFFFFF 100%)',
+                'logo-gradient': 'linear-gradient(to right, #9D1F65, #C4A574)',
             },
         },
     },

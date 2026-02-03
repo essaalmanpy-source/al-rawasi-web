@@ -17,7 +17,9 @@ export function DirectorMessage({ lang }: { lang: Locale }) {
 At Al-Rawasi, we have succeeded in forming a team of the most competent and highly skilled specialists, and we have managed to conclude technical support agreements with local institutions and foreign companies. Through these combined competencies, we strive to enhance the level of services we provide, aiming to present an ingrained symbol of sophistication, luxury, and beauty that celebrates the religious and historical identity of our beloved country.`;
 
     return (
-        <section className="py-32 bg-gradient-to-b from-secondary-dark to-secondary-dark/95 relative overflow-hidden">
+        <section className="py-32 relative overflow-hidden transition-colors duration-500
+            dark:bg-gradient-to-b dark:from-secondary-dark dark:to-secondary-dark/95
+            light:bg-neutral-50">
             {/* Decorative Elements */}
             <div className="absolute inset-0 opacity-5">
                 <div className="absolute top-20 right-20 w-96 h-96 bg-primary rounded-full blur-3xl" />
@@ -79,7 +81,7 @@ At Al-Rawasi, we have succeeded in forming a team of the most competent and high
                         {/* Quote Content */}
                         <div className="relative">
                             <Quote className="absolute -top-4 -left-4 w-12 h-12 text-primary/20 transform rotate-180" />
-                            <div className="space-y-6 text-gray-300 text-lg leading-relaxed font-light">
+                            <div className="space-y-6 text-muted-foreground text-lg leading-relaxed font-light">
                                 {(lang === 'ar' ? messageAr : messageEn).split('\n\n').map((paragraph, idx) => (
                                     <motion.p
                                         key={idx}
@@ -98,12 +100,12 @@ At Al-Rawasi, we have succeeded in forming a team of the most competent and high
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.8 }}
-                            className="mt-10 pt-8 border-t border-white/10"
+                            className="mt-10 pt-8 border-t border-border/10"
                         >
                             <p className="text-primary font-bold text-xl mb-1">
                                 {lang === 'ar' ? 'المدير العام' : 'General Manager'}
                             </p>
-                            <p className="text-gray-500 text-sm">
+                            <p className="text-muted-foreground text-sm opacity-60">
                                 {lang === 'ar' ? 'شركة الرواسي الليبية للاستشارات الهندسية' : 'Al-Rawasi Libyan Engineering Consultations'}
                             </p>
                         </motion.div>

@@ -92,7 +92,7 @@ export function ProjectsScrollWrapper({ projects, lang }: ProjectsScrollWrapperP
                         {lang === 'ar' ? "مشارعنا" : "Selected"} <br />
                         <span className="text-accent">{lang === 'ar' ? "المختارة" : "Works"}</span>
                     </h2>
-                    <p className="text-gray-400 max-w-md mt-4 text-lg">
+                    <p className="text-muted-foreground max-w-md mt-4 text-lg">
                         {lang === 'ar'
                             ? "استكشف مجموعة مختارة من مشاريعنا الهندسية المعقدة والمبتكرة."
                             : "Explore a curated selection of our most complex and innovative engineering feats."}
@@ -101,7 +101,7 @@ export function ProjectsScrollWrapper({ projects, lang }: ProjectsScrollWrapperP
 
                 {/* Scroll Indicator */}
                 <div className="hidden md:flex flex-col items-center gap-2 animate-pulse">
-                    <span className="text-xs uppercase tracking-[0.2em] text-gray-500 rotate-90 origin-right translate-x-2">Scroll</span>
+                    <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground rotate-90 origin-right translate-x-2">Scroll</span>
                     <div className="w-[1px] h-16 bg-gradient-to-b from-accent to-transparent" />
                 </div>
             </div>

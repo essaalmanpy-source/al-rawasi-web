@@ -24,7 +24,7 @@ export default function AboutPage({ params }: { params: { lang: Locale } }) {
     const opacityOverlay = useTransform(scrollYProgress, [0, 0.1, 0.15], [0.65, 0.75, 0.9]);
 
     return (
-        <main ref={containerRef} className="relative bg-secondary-dark min-h-screen">
+        <main ref={containerRef} className="relative bg-background min-h-screen transition-colors duration-500">
             {/* Cinematic Hero Section */}
             <section className="relative h-[85vh] flex items-center justify-center overflow-hidden">
                 {/* Static Background Image - Always Visible */}
@@ -43,12 +43,14 @@ export default function AboutPage({ params }: { params: { lang: Locale } }) {
                     style={{ y: yHero, scale: scaleHero }}
                     className="absolute inset-0 z-10"
                 >
-                    {/* Dynamic Overlay that darkens on scroll */}
+                    {/* Dynamic Overlay that darkens/lightens on scroll */}
                     <motion.div
                         style={{ opacity: opacityOverlay }}
-                        className="absolute inset-0 bg-secondary-dark mix-blend-multiply"
+                        className="absolute inset-0 dark:bg-secondary-dark light:bg-white dark:mix-blend-multiply light:mix-blend-overlay"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-secondary-dark/50 to-secondary-dark" />
+                    <div className="absolute inset-0 
+                        dark:bg-gradient-to-b dark:from-transparent dark:via-secondary-dark/50 dark:to-secondary-dark
+                        light:bg-gradient-to-b light:from-transparent light:via-white/50 light:to-background" />
                 </motion.div>
 
                 {/* Content */}
@@ -59,18 +61,22 @@ export default function AboutPage({ params }: { params: { lang: Locale } }) {
                         transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
                     >
                         <FadeIn direction="up" delay={0.2}>
-                            <span className="inline-block py-2 px-6 rounded-full bg-white/5 backdrop-blur-md border border-white/10 text-accent text-xs font-bold uppercase tracking-[0.4em] mb-8 shadow-2xl">
+                            <span className="inline-block py-2 px-6 rounded-full backdrop-blur-md border text-accent text-xs font-bold uppercase tracking-[0.4em] mb-8 shadow-2xl
+                                dark:bg-white/5 dark:border-white/10
+                                light:bg-primary/5 light:border-primary/10">
                                 {params.lang === 'ar' ? 'من نحن' : 'Who We Are'}
                             </span>
                         </FadeIn>
 
                         <TextReveal
                             text={params.lang === 'ar' ? "شركاؤك في بناء المستقبل" : "Partners in Building the Future"}
-                            className="text-5xl md:text-8xl font-bold font-heading text-white tracking-tighter mb-8 leading-tight drop-shadow-2xl"
+                            className="text-5xl md:text-8xl font-bold font-heading tracking-tighter mb-8 leading-tight drop-shadow-2xl
+                                dark:text-white light:text-foreground"
                         />
 
                         <FadeIn delay={0.6} className="max-w-3xl mx-auto">
-                            <p className="text-lg md:text-2xl text-gray-300 font-light leading-relaxed opacity-90 italic">
+                            <p className="text-lg md:text-2xl font-light leading-relaxed opacity-90 italic
+                                dark:text-gray-300 light:text-muted-foreground">
                                 {params.lang === 'ar'
                                     ? "نجمع بين الخبرة العريقة والرؤية المتجددة لنقدم حلولاً هندسية تليق بطموحات ليبيا الواعدة."
                                     : "Combining deep heritage with a renewed vision to deliver engineering solutions worthy of Libya's promising ambitions."}
@@ -86,14 +92,16 @@ export default function AboutPage({ params }: { params: { lang: Locale } }) {
                     transition={{ delay: 1, duration: 2 }}
                     className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4"
                 >
-                    <div className="w-[1px] h-20 bg-gradient-to-b from-white to-transparent" />
+                    <div className="w-[1px] h-20 bg-gradient-to-b dark:from-white light:from-primary to-transparent" />
                 </motion.div>
             </section>
 
             {/* Vision Mission Section with Smooth Transition */}
             <section className="relative z-10">
-                {/* Animated Gradient Transition from Dark to Light */}
-                <div className="absolute -top-32 left-0 right-0 h-64 bg-gradient-to-b from-secondary-dark via-secondary-dark/50 to-transparent pointer-events-none z-20" />
+                {/* Animated Gradient Transition from Dark/Light to Transparent */}
+                <div className="absolute -top-32 left-0 right-0 h-64 pointer-events-none z-20 
+                    dark:bg-gradient-to-b dark:from-secondary-dark dark:via-secondary-dark/50 dark:to-transparent
+                    light:bg-gradient-to-b light:from-background light:via-background/50 light:to-transparent" />
 
                 <motion.div
                     initial={{ opacity: 0, y: 60 }}

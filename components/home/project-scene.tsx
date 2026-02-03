@@ -1,9 +1,8 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowUpRight, MapPin } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Locale } from "@/types";
 
@@ -13,6 +12,7 @@ interface ProjectSceneProps {
         title: string;
         category: string;
         image: string;
+        images?: string[]; // Optional array for multiple images
         location: string;
         year: string;
         desc: string;
@@ -25,6 +25,17 @@ export function ProjectScene({ project, index, lang }: ProjectSceneProps) {
     const sectionRef = useRef<HTMLDivElement>(null);
     const isRTL = lang === 'ar';
     const isEven = index % 2 === 0;
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
+    // Check if project has multiple images
+    const hasMultipleImages = project.images && project.images.length > 1;
 
     // Scroll Animations
     const { scrollYProgress } = useScroll({
@@ -32,25 +43,25 @@ export function ProjectScene({ project, index, lang }: ProjectSceneProps) {
         offset: ["start end", "end start"]
     });
 
-    const yContent = useTransform(scrollYProgress, [0, 1], [50, -50]);
-    const imageScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.1, 1, 1.1]);
-    const imageParallax = useTransform(scrollYProgress, [0, 1], [-30, 30]);
+    // Simplify or disable transforms on mobile
+    const imageScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.05, 1, 1.05]); // Reduced scale intensity
+    const imageParallax = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [-30, 30]);
 
     return (
         <section
             ref={sectionRef}
-            className="relative min-h-[90vh] py-24 flex items-center justify-center overflow-hidden"
+            className="relative min-h-[50vh] md:min-h-[70vh] lg:min-h-[90vh] py-12 md:py-24 flex items-center justify-center overflow-hidden bg-background transition-colors duration-500"
         >
-            {/* Ambient Background Elements */}
+            {/* Ambient Background Elements - Reduced on mobile */}
             <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute top-[20%] left-[5%] w-[500px] h-[500px] bg-primary/5 rounded-full blur-[100px]" />
-                <div className="absolute bottom-[20%] right-[5%] w-[400px] h-[400px] bg-accent/5 rounded-full blur-[80px]" />
-                <div className="absolute inset-0 bg-[url('/images/grid-pattern.svg')] opacity-[0.02] bg-[length:40px_40px]" />
+                <div className="absolute top-[20%] left-[5%] w-[200px] md:w-[500px] h-[200px] md:h-[500px] bg-primary/5 rounded-full blur-[60px] md:blur-[100px] dark:opacity-100 opacity-20" />
+                <div className="absolute bottom-[20%] right-[5%] w-[150px] md:w-[400px] h-[150px] md:h-[400px] bg-accent/5 rounded-full blur-[50px] md:blur-[80px] dark:opacity-100 opacity-20" />
+                <div className="absolute inset-0 bg-[url('/images/grid-pattern.svg')] dark:opacity-[0.02] opacity-[0.05] bg-[length:30px_30px] md:bg-[length:40px_40px]" />
             </div>
 
-            <div className="container-custom relative z-10 w-full">
+            <div className="container-custom relative z-10 w-full px-4 md:px-6">
                 <div className={cn(
-                    "flex flex-col lg:flex-row items-center gap-12 lg:gap-24",
+                    "flex flex-col lg:flex-row items-center gap-8 md:gap-12 lg:gap-24",
                     isEven ? (isRTL ? "lg:flex-row-reverse" : "lg:flex-row") : (isRTL ? "lg:flex-row" : "lg:flex-row-reverse")
                 )}>
 
@@ -62,73 +73,74 @@ export function ProjectScene({ project, index, lang }: ProjectSceneProps) {
                         viewport={{ once: true, margin: "-10%" }}
                         transition={{ duration: 0.8, ease: "easeOut" }}
                     >
-                        {/* Decorative Frame Elements */}
+                        {/* Decorative Frame Elements - Hidden on mobile */}
                         <div className={cn(
-                            "absolute -inset-4 border border-white/10 rounded-[2.5rem] opacity-0 group-hover:opacity-100 transition-opacity duration-700",
+                            "absolute -inset-4 border transition-opacity duration-700 rounded-[2rem] md:rounded-[2.5rem] opacity-0 group-hover:opacity-100 hidden md:block",
+                            "dark:border-white/10 light:border-black/5",
                             isEven ? "translate-x-4 translate-y-4" : "-translate-x-4 translate-y-4"
                         )} />
 
-                        {/* Image Container */}
-                        <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[2rem] shadow-2xl shadow-black/50 bg-secondary-dark/50">
-                            <motion.div style={{ scale: imageScale, y: imageParallax }} className="relative h-[120%] w-full -top-[10%]">
-                                <Image
-                                    src={project.image}
-                                    alt={project.title}
-                                    fill
-                                    className="object-cover transition-all duration-700 group-hover:grayscale-[0.5]"
-                                />
-                                <div className="absolute inset-0 bg-secondary-dark/20 mix-blend-multiply group-hover:bg-transparent transition-colors duration-700" />
-                            </motion.div>
-
-                            {/* Glass Overlay Details */}
-                            <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between p-6 bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                                <div className="flex items-center gap-4 text-white">
-                                    <span className="flex items-center gap-2 text-sm font-medium">
-                                        <MapPin className="w-4 h-4 text-accent" />
-                                        {project.location}
-                                    </span>
+                        {/* Multi-Image Layout or Single Image */}
+                        {hasMultipleImages ? (
+                            <div className="relative flex gap-3 md:gap-4">
+                                {/* First Image - Larger */}
+                                <div className="relative w-[60%] aspect-[3/4] overflow-hidden rounded-2xl md:rounded-[1.5rem] shadow-xl md:shadow-2xl transition-colors duration-500 group/img1
+                                    dark:bg-secondary-dark/50 dark:shadow-black/50
+                                    light:bg-neutral-100 light:shadow-neutral-200/50">
+                                    <motion.div style={{ scale: isMobile ? 1 : imageScale }} className="relative h-full w-full">
+                                        <Image
+                                            src={project.images![0]}
+                                            alt={`${project.title} - 1`}
+                                            fill
+                                            className="object-cover transition-all duration-700 group-hover/img1:scale-105"
+                                            sizes="(max-width: 768px) 60vw, 40vw"
+                                        />
+                                        <div className="absolute inset-0 mix-blend-multiply group-hover/img1:bg-transparent transition-colors duration-700
+                                            dark:bg-secondary-dark/20 light:bg-neutral-200/10" />
+                                    </motion.div>
                                 </div>
-                                <span className="text-white/60 text-sm font-bold tracking-widest">{project.year}</span>
+
+                                {/* Second Image - Smaller with offset */}
+                                <div className="relative w-[45%] aspect-[3/4] overflow-hidden rounded-2xl md:rounded-[1.5rem] shadow-xl md:shadow-2xl transition-all duration-500 group/img2 -ml-[8%] mt-4 md:mt-12
+                                    dark:bg-secondary-dark/50 dark:shadow-black/50 dark:border-secondary-dark border-2 md:border-4
+                                    light:bg-neutral-100 light:shadow-neutral-200/50 light:border-white">
+                                    <motion.div style={{ scale: isMobile ? 1 : imageScale, y: imageParallax }} className="relative h-full w-full">
+                                        <Image
+                                            src={project.images![1]}
+                                            alt={`${project.title} - 2`}
+                                            fill
+                                            className="object-cover transition-all duration-700 group-hover/img2:scale-105"
+                                            sizes="(max-width: 768px) 45vw, 30vw"
+                                        />
+                                        <div className="absolute inset-0 mix-blend-multiply group-hover/img2:bg-transparent transition-colors duration-700
+                                            dark:bg-secondary-dark/20 light:bg-neutral-200/10" />
+                                    </motion.div>
+                                </div>
                             </div>
+                        ) : (
+                            /* Single Image Layout */
+                            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl md:rounded-[2rem] shadow-xl md:shadow-2xl transition-colors duration-500
+                                dark:bg-secondary-dark/50 dark:shadow-black/50
+                                light:bg-neutral-100 light:shadow-neutral-200/50">
+                                <motion.div style={{ scale: isMobile ? 1 : imageScale, y: imageParallax }} className="relative h-[110%] md:h-[120%] w-full -top-[5%] md:-top-[10%]">
+                                    <Image
+                                        src={project.image}
+                                        alt={project.title}
+                                        fill
+                                        className="object-cover transition-all duration-700 group-hover:grayscale-[0.5]"
+                                        sizes="(max-width: 768px) 90vw, 60vw"
+                                    />
+                                    <div className="absolute inset-0 mix-blend-multiply group-hover:bg-transparent transition-colors duration-700
+                                        dark:bg-secondary-dark/20 light:bg-neutral-200/10" />
+                                </motion.div>
+                            </div>
+                        )}
+
+                        {/* Mobile Title Overlay (Optional - since content col is hidden) */}
+                        <div className="absolute bottom-4 left-4 right-4 p-4 bg-white/90 dark:bg-black/80 backdrop-blur-md rounded-xl border border-white/20 shadow-lg md:hidden opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <h3 className="text-lg font-bold text-foreground">{project.title}</h3>
+                            <p className="text-xs text-muted-foreground line-clamp-2">{project.desc}</p>
                         </div>
-
-                        {/* Floating Number (Behind) */}
-                        <div className={cn(
-                            "absolute top-[-10%] z-[-1] text-[12rem] leading-none font-bold text-white/[0.02] font-heading select-none pointer-events-none",
-                            isRTL ? "right-[-5%]" : "left-[-5%]"
-                        )}>
-                            {String(index + 1).padStart(2, '0')}
-                        </div>
-                    </motion.div>
-
-                    {/* Content Column */}
-                    <motion.div
-                        style={{ y: yContent }}
-                        className="w-full lg:w-2/5 flex flex-col gap-8"
-                    >
-                        {/* Category & Badge */}
-                        <div className="flex items-center gap-4 overflow-hidden">
-                            <motion.div
-                                initial={{ width: 0 }}
-                                whileInView={{ width: 60 }}
-                                transition={{ duration: 1, delay: 0.2 }}
-                                className="h-[2px] bg-accent"
-                            />
-                            <span className="text-accent uppercase tracking-[0.2em] text-sm font-bold">
-                                {project.category}
-                            </span>
-                        </div>
-
-                        {/* Title */}
-                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white font-heading leading-[1.1]">
-                            {project.title}
-                        </h2>
-
-                        {/* Description */}
-                        <p className="text-lg text-gray-400 leading-relaxed dark:text-gray-300">
-                            {project.desc}
-                        </p>
-
 
                     </motion.div>
                 </div>

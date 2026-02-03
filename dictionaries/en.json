@@ -18,7 +18,8 @@
         "about_title": "Who We Are",
         "services_title": "Our Services",
         "projects_title": "Featured Projects",
-        "partners_title": "Our Partners"
+        "partners_title": "Our Partners",
+        "supporting_companies": "Supporting Companies"
     },
     "contact": {
         "hq_label": "Headquarters",
@@ -27,9 +28,7 @@
         "benghazi_address": "Garyounis Club Commercial Complex",
         "tripoli_label": "Tripoli Branch",
         "tripoli_address": "Next to Real Estate Savings & Investment Bank",
-        "phone": "+218910662991",
         "email": "alrawasialiby@gmail.com",
-        "whatsapp": "+218910662991",
-        "facebook": "Facebook"
+        "footer_heading": "Be One of Our Values"
     }
 }

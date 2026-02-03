@@ -5,5 +5,10 @@ import { ContactContent } from "@/components/contact/contact-content";
 export default async function ContactPage({ params }: { params: { lang: Locale } }) {
     const dict = await getDictionary(params.lang);
 
-    return <ContactContent dict={dict} lang={params.lang} />;
+    return (
+        <main>
+            <ContactContent dict={dict} lang={params.lang} />
+        </main>
+    );
 }
+

@@ -41,7 +41,9 @@ export function CoreValues({ lang }: { lang: Locale }) {
     ];
 
     return (
-        <section className="py-32 bg-gradient-to-b from-secondary-dark/90 via-secondary-dark to-secondary-dark relative overflow-hidden">
+        <section className="py-32 relative overflow-hidden transition-colors duration-500
+            dark:bg-gradient-to-b dark:from-secondary-dark/90 dark:via-secondary-dark dark:to-secondary-dark
+            light:bg-white">
             {/* Decorative Elements */}
             <div className="absolute inset-0 opacity-5">
                 <div className="absolute top-40 right-20 w-80 h-80 bg-primary rounded-full blur-3xl" />
@@ -61,15 +63,17 @@ export function CoreValues({ lang }: { lang: Locale }) {
                         <StaggerItem key={idx}>
                             <motion.div
                                 whileHover={{ y: -10, scale: 1.02 }}
-                                className="bg-white/5 backdrop-blur-sm p-8 rounded-2xl border border-white/10 hover:bg-white/10 hover:border-primary/30 transition-all duration-300 h-full group"
+                                className="p-8 rounded-2xl border transition-all duration-300 h-full group
+                                    dark:bg-white/5 dark:border-white/10 dark:hover:bg-white/10 dark:hover:border-primary/30
+                                    light:bg-neutral-50 light:border-border/50 light:hover:bg-white light:hover:border-primary/30 light:shadow-sm light:hover:shadow-md"
                             >
                                 <div className="w-14 h-14 bg-primary/20 rounded-xl flex items-center justify-center mb-6 text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-300">
                                     <val.icon className="w-7 h-7" />
                                 </div>
-                                <h3 className="text-xl font-bold text-white mb-3 group-hover:text-primary transition-colors">
+                                <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors">
                                     {val.title}
                                 </h3>
-                                <p className="text-gray-400 text-sm leading-relaxed">
+                                <p className="text-muted-foreground text-sm leading-relaxed">
                                     {val.desc}
                                 </p>
                             </motion.div>

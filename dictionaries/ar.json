@@ -18,7 +18,8 @@
         "about_title": "من نحن",
         "services_title": "خدماتنا",
         "projects_title": "أبرز المشاريع",
-        "partners_title": "شركاء النجاح"
+        "partners_title": "شركاء النجاح",
+        "supporting_companies": "الشركات المساندة"
     },
     "contact": {
         "hq_label": "المقر الرئيسي",
@@ -27,8 +28,7 @@
         "benghazi_address": "مجمع نادي قاريونس التجاري",
         "tripoli_label": "فرع طرابلس",
         "tripoli_address": "بجوار مصرف الادخار والاستثمار العقاري",
-        "phone": "218910662991+",
         "email": "alrawasialiby@gmail.com",
-        "whatsapp": "218910662991+"
+        "footer_heading": "كن واحداً من قيمنا"
     }
 }

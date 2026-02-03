@@ -32,16 +32,20 @@ export function ProjectsShowcase({ projects, lang, isHomePage = false }: Project
     // This container ensures a smooth dark environment.
 
     return (
-        <div ref={containerRef} className="relative bg-secondary-dark text-white">
+        <div ref={containerRef} className="relative transition-colors duration-500
+            dark:bg-secondary-dark
+            light:bg-white text-foreground">
             {/* Introductory Header - Pinned or Floating */}
             <div className="py-24 container-custom text-center">
-                <span className="inline-block py-1 px-3 rounded-full bg-white/5 border border-white/10 text-accent text-xs font-bold uppercase tracking-[0.2em] mb-6">
+                <span className="inline-block py-1 px-3 rounded-full text-accent text-xs font-bold uppercase tracking-[0.2em] mb-6
+                    dark:bg-white/5 dark:border-white/10
+                    light:bg-primary/5 light:border-primary/10">
                     {lang === 'ar' ? "أعمالنا المختارة" : "Selected Works"}
                 </span>
-                <h2 className="text-5xl md:text-7xl font-bold font-heading mb-6 tracking-tight">
+                <h2 className="text-5xl md:text-7xl font-bold font-heading mb-6 tracking-tight text-foreground">
                     {lang === 'ar' ? "التميز الهندسي" : "Engineering Excellence"}
                 </h2>
-                <p className="max-w-2xl mx-auto text-gray-400 text-lg">
+                <p className="max-w-2xl mx-auto text-muted-foreground text-lg">
                     {lang === 'ar'
                         ? "نحول التحديات المعقدة إلى حلول هندسية مستدامة."
                         : "Transforming complex challenges into sustainable engineering solutions."}
@@ -61,7 +65,9 @@ export function ProjectsShowcase({ projects, lang, isHomePage = false }: Project
             </div>
 
             {/* Footer / Closing Statement */}
-            <div className="py-32 flex flex-col items-center justify-center bg-black/20 text-center">
+            <div className="py-32 flex flex-col items-center justify-center text-center transition-colors duration-500
+                dark:bg-black/20
+                light:bg-neutral-50 light:border-y light:border-border/10">
                 {isHomePage ? (
                     <a
                         href={`/${lang}/projects`}
@@ -72,17 +78,19 @@ export function ProjectsShowcase({ projects, lang, isHomePage = false }: Project
                     </a>
                 ) : (
                     <div className="max-w-3xl px-6">
-                        <h3 className="text-4xl md:text-6xl font-bold font-heading mb-8">
+                        <h3 className="text-4xl md:text-6xl font-bold font-heading mb-8 text-foreground">
                             {lang === 'ar' ? "هل أنت مستعد لبناء المستقبل؟" : "Ready to Build the Future?"}
                         </h3>
-                        <p className="text-gray-400 text-lg mb-12 max-w-2xl mx-auto">
+                        <p className="text-muted-foreground text-lg mb-12 max-w-2xl mx-auto">
                             {lang === 'ar'
                                 ? "دعنا نحول رؤيتك إلى واقع ملموس بأعلى معايير الجودة والاحترافية."
                                 : "Let's turn your vision into reality with the highest standards of quality and professionalism."}
                         </p>
                         <a
                             href={`/${lang}/contact`}
-                            className="group inline-flex items-center gap-3 px-10 py-5 bg-accent text-secondary-dark font-bold text-lg rounded-full shadow-[0_0_30px_rgba(255,198,0,0.3)] hover:shadow-[0_0_50px_rgba(255,198,0,0.5)] hover:bg-white transition-all duration-300 transform hover:-translate-y-1"
+                            className="group inline-flex items-center gap-3 px-10 py-5 bg-accent font-bold text-lg rounded-full shadow-[0_0_30px_rgba(255,198,0,0.3)] hover:shadow-[0_0_50px_rgba(255,198,0,0.5)] transition-all duration-300 transform hover:-translate-y-1
+                                dark:text-secondary-dark dark:hover:bg-white
+                                light:text-primary light:hover:bg-primary light:hover:text-white"
                         >
                             <span>{lang === 'ar' ? "تواصل معنا اليوم" : "Contact Us Today"}</span>
                             <ArrowUpRight className="w-5 h-5 transition-transform duration-300 group-hover:rotate-45" />
