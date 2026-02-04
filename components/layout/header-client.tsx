@@ -54,9 +54,11 @@ export function HeaderClient({ lang, dict, logo }: HeaderClientProps) {
 
     return (
         <motion.header
-            className={`fixed w-full z-50 transition-all duration-500 ease-out ${isScrolled
-                ? "py-2 md:py-3 bg-white/95 backdrop-blur-xl shadow-lg border-b border-border/20"
-                : "py-3 md:py-5 bg-white/80 backdrop-blur-md border-b border-border/10"
+            className={`fixed w-full z-50 transition-all duration-500 ease-out ${isMobileMenuOpen
+                ? "py-3 bg-background border-b border-border/20"
+                : isScrolled
+                    ? "py-2 md:py-3 bg-white/95 backdrop-blur-xl shadow-lg border-b border-border/20"
+                    : "py-3 md:py-5 bg-white/80 backdrop-blur-md border-b border-border/10"
                 }`}
             initial={{ y: -100 }}
             animate={{ y: 0 }}
@@ -164,71 +166,59 @@ export function HeaderClient({ lang, dict, logo }: HeaderClientProps) {
                 </div>
             </div>
 
-            {/* Mobile Menu Overlay - Full screen on mobile */}
+            {/* Mobile Menu Overlay - Full screen, Solid Background */}
             <AnimatePresence>
                 {isMobileMenuOpen && (
-                    <>
-                        {/* Backdrop */}
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            className="lg:hidden fixed inset-0 bg-black/20 backdrop-blur-sm z-[-1]"
-                            onClick={() => setIsMobileMenuOpen(false)}
-                        />
-
-                        {/* Menu Content */}
-                        <motion.div
-                            initial={{ opacity: 0, y: -20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -20 }}
-                            transition={{ duration: 0.3, ease: "easeOut" }}
-                            className="lg:hidden absolute top-full left-0 w-full bg-white/98 backdrop-blur-xl border-t border-border/20 shadow-2xl overflow-y-auto"
-                            style={{ maxHeight: 'calc(100vh - 80px)' }}
-                        >
-                            <div className="container-custom py-6 px-4 flex flex-col gap-2">
+                    <motion.div
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                        className="lg:hidden fixed inset-0 z-40 bg-background pt-24 pb-8 px-4 overflow-y-auto"
+                    >
+                        <div className="container-custom h-full flex flex-col">
+                            <div className="flex flex-col gap-2">
                                 {navItems.map((item, idx) => (
                                     <motion.div
                                         key={item.key}
-                                        initial={{ opacity: 0, x: lang === 'ar' ? 30 : -30 }}
+                                        initial={{ opacity: 0, x: -20 }}
                                         animate={{ opacity: 1, x: 0 }}
-                                        transition={{ delay: idx * 0.05, type: "spring", stiffness: 150, damping: 20 }}
+                                        transition={{ delay: 0.1 + idx * 0.05, duration: 0.3 }}
                                     >
                                         <Link
                                             href={`/${lang}/${item.href}`}
-                                            className={`flex items-center justify-between px-4 py-4 text-lg font-semibold rounded-xl transition-all active:scale-[0.98] min-h-[56px] ${isActive(item.href)
-                                                ? "text-primary bg-primary/10 border-primary/20 border"
-                                                : "text-foreground/80 hover:text-primary hover:bg-primary/5 active:bg-primary/10"
+                                            className={`flex items-center justify-between px-6 py-5 text-xl font-bold rounded-2xl transition-all active:scale-[0.98] ${isActive(item.href)
+                                                ? "text-primary bg-primary/5 border border-primary/10"
+                                                : "text-foreground bg-secondary/30 border border-transparent"
                                                 }`}
                                             onClick={() => setIsMobileMenuOpen(false)}
                                         >
                                             <span>{dict.navigation[item.key]}</span>
-                                            <ChevronRight className={`w-5 h-5 transition-colors ${lang === 'ar' ? 'rotate-180' : ''}
-                                                ${isActive(item.href) ? 'text-primary' : 'text-foreground/30'}`} />
+                                            <ChevronRight className={`w-5 h-5 ${lang === 'ar' ? 'rotate-180' : ''} 
+                                                ${isActive(item.href) ? 'text-primary' : 'text-muted-foreground'}`} />
                                         </Link>
                                     </motion.div>
                                 ))}
-
-                                {/* CTA in mobile menu */}
-                                <motion.div
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: 0.3, type: "spring" }}
-                                    className="pt-4 mt-2 border-t border-border/20"
-                                >
-                                    <Link
-                                        href={`/${lang}/contact`}
-                                        className="flex items-center justify-center gap-2 w-full px-6 py-4 text-lg font-bold rounded-xl transition-all shadow-lg active:scale-[0.98] min-h-[56px]
-                                            text-white bg-primary hover:bg-primary/90 active:bg-primary/80"
-                                        onClick={() => setIsMobileMenuOpen(false)}
-                                    >
-                                        {dict.navigation.contact}
-                                        <ChevronRight className={`w-5 h-5 ${lang === 'ar' ? 'rotate-180' : ''}`} />
-                                    </Link>
-                                </motion.div>
                             </div>
-                        </motion.div>
-                    </>
+
+                            {/* CTA in mobile menu */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.4, duration: 0.4 }}
+                                className="mt-8 pt-8 border-t border-border"
+                            >
+                                <Link
+                                    href={`/${lang}/contact`}
+                                    className="flex items-center justify-center gap-3 w-full px-6 py-5 text-xl font-bold text-white bg-primary rounded-2xl shadow-lg active:scale-[0.98] transition-transform"
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                >
+                                    {dict.navigation.contact}
+                                    <ChevronRight className={`w-6 h-6 ${lang === 'ar' ? 'rotate-180' : ''}`} />
+                                </Link>
+                            </motion.div>
+                        </div>
+                    </motion.div>
                 )}
             </AnimatePresence>
         </motion.header>
