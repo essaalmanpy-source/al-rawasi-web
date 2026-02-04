@@ -176,10 +176,10 @@ export function FooterClient({ lang, dict }: FooterClientProps) {
 
             {/* Main Content */}
             <div className="container-custom relative z-10 pt-16 md:pt-20 pb-8 md:pb-12 px-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-14 lg:gap-12 mb-16 md:mb-20">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12 md:gap-14 lg:gap-12 mb-16 md:mb-20">
                     {/* Brand Section */}
                     <motion.div
-                        className="space-y-6"
+                        className="col-span-2 lg:col-span-1 space-y-6"
                         initial={{ opacity: 0, y: 30 }}
                         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
                         transition={{ duration: 0.6, delay: 0.1 }}
@@ -202,7 +202,7 @@ export function FooterClient({ lang, dict }: FooterClientProps) {
                                 </span>
                             </div>
                         </div>
-                        <p className="text-muted-foreground text-base leading-relaxed border-s-2 border-primary/50 ps-5">
+                        <p className="text-muted-foreground text-sm md:text-base leading-relaxed border-s-2 border-primary/50 ps-5">
                             {lang === 'ar' ?
                                 'شركة ليبية رائدة في مجال الاستشارات الهندسية والتخطيط العمراني، نقدم حلولاً مبتكرة للمشاريع الكبرى.' :
                                 'A leading Libyan engineering consultancy firm providing innovative solutions for major urban planning and infrastructure projects.'}
@@ -211,20 +211,21 @@ export function FooterClient({ lang, dict }: FooterClientProps) {
 
                     {/* Quick Links */}
                     <motion.div
+                        className="col-span-1 lg:col-span-1"
                         initial={{ opacity: 0, y: 30 }}
                         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
                         transition={{ duration: 0.6, delay: 0.2 }}
                     >
-                        <h3 className="font-heading font-bold text-xl mb-8 text-foreground relative inline-block">
+                        <h3 className="font-heading font-bold text-lg md:text-xl mb-6 md:mb-8 text-foreground relative inline-block">
                             {lang === 'ar' ? 'روابط سريعة' : 'Quick Links'}
                             <span className="absolute -bottom-2.5 left-0 w-10 h-0.5 bg-gradient-to-r from-primary to-transparent" />
                         </h3>
-                        <ul className="space-y-4">
+                        <ul className="space-y-4 text-sm md:text-base">
                             {quickLinks.map((item) => (
                                 <li key={item.key}>
                                     <Link
                                         href={`/${lang}/${item.href}`}
-                                        className="group text-muted-foreground hover:text-primary transition-all duration-300 inline-flex items-center gap-3 text-base"
+                                        className="group text-muted-foreground hover:text-primary transition-all duration-300 inline-flex items-center gap-3"
                                     >
                                         <span className="w-1.5 h-1.5 rounded-full bg-primary/50 group-hover:bg-primary transition-colors group-hover:scale-125" />
                                         {dict.navigation[item.key as keyof typeof dict.navigation]}
@@ -237,15 +238,16 @@ export function FooterClient({ lang, dict }: FooterClientProps) {
 
                     {/* Services */}
                     <motion.div
+                        className="col-span-1 lg:col-span-1"
                         initial={{ opacity: 0, y: 30 }}
                         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
                         transition={{ duration: 0.6, delay: 0.3 }}
                     >
-                        <h3 className="font-heading font-bold text-xl mb-8 text-foreground relative inline-block">
+                        <h3 className="font-heading font-bold text-lg md:text-xl mb-6 md:mb-8 text-foreground relative inline-block">
                             {lang === 'ar' ? 'خدماتنا' : 'Our Services'}
                             <span className="absolute -bottom-2.5 left-0 w-10 h-0.5 bg-gradient-to-r from-primary to-transparent" />
                         </h3>
-                        <ul className="space-y-4 text-base text-muted-foreground">
+                        <ul className="space-y-4 text-sm md:text-base text-muted-foreground">
                             {services.map((service, idx) => (
                                 <li key={idx} className="flex items-center gap-3">
                                     <span className="w-1.5 h-1.5 rounded-full bg-primary/40" />
@@ -257,6 +259,7 @@ export function FooterClient({ lang, dict }: FooterClientProps) {
 
                     {/* Contact */}
                     <motion.div
+                        className="col-span-2 lg:col-span-1"
                         initial={{ opacity: 0, y: 30 }}
                         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
                         transition={{ duration: 0.6, delay: 0.4 }}
