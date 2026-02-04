@@ -177,7 +177,7 @@ function ClientCard({ client, isMobile }: { client: { name: string, logo: string
                         src={client.logo}
                         alt={client.name}
                         fill
-                        className="object-contain p-1 md:p-2 transition-all duration-500 group-hover:scale-110 opacity-90 group-hover:opacity-100 grayscale group-hover:grayscale-0"
+                        className="object-contain p-1 md:p-2 transition-all duration-500 group-hover:scale-110 opacity-100"
                         sizes="(max-width: 640px) 120px, (max-width: 768px) 150px, 280px"
                     />
                 </div>
