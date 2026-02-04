@@ -308,29 +308,15 @@ export function FooterClient({ lang, dict }: FooterClientProps) {
 
             {/* Copyright Bar */}
             <div className="relative z-10 bg-foreground/5 backdrop-blur-md border-t border-border/5">
-                <div className="container-custom py-6 md:py-8 flex flex-col md:flex-row items-center justify-between text-sm text-muted-foreground gap-4">
+                <div className="container-custom py-6 md:py-8 flex flex-col md:flex-row items-center justify-center text-sm text-muted-foreground gap-4">
                     <motion.p
                         initial={{ opacity: 0 }}
                         animate={isInView ? { opacity: 1 } : { opacity: 0 }}
                         transition={{ duration: 0.5, delay: 0.8 }}
-                        className="text-center md:text-start"
+                        className="text-center"
                     >
                         © {new Date().getFullYear()} {lang === 'ar' ? 'شركة الرواسي للاستشارات الهندسية. جميع الحقوق محفوظة' : 'Al-Rawasi Engineering Consultants. All rights reserved.'}
                     </motion.p>
-                    <motion.div
-                        className="flex flex-wrap justify-center items-center gap-4 md:gap-6"
-                        initial={{ opacity: 0 }}
-                        animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-                        transition={{ duration: 0.5, delay: 0.9 }}
-                    >
-                        <Link href={`/${lang}/privacy`} className="hover:text-foreground transition-colors p-2 md:p-0">
-                            {lang === 'ar' ? 'سياسة الخصوصية' : 'Privacy Policy'}
-                        </Link>
-                        <span className="hidden md:inline-block w-1.5 h-1.5 rounded-full bg-gray-400/50" />
-                        <Link href={`/${lang}/terms`} className="hover:text-foreground transition-colors p-2 md:p-0">
-                            {lang === 'ar' ? 'الشروط والأحكام' : 'Terms of Service'}
-                        </Link>
-                    </motion.div>
                 </div>
             </div>
         </footer>
